@@ -60,7 +60,7 @@ function createCarStraight() {
         } else {
             // Перекресток нерегулируемый: проезд перекрестка прямо
             car.className = 'car vertical';
-            car.style.top = '750px';
+            car.style.left = '750px';
         }
     }, 1000);
 }
