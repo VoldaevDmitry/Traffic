@@ -1,6 +1,12 @@
+var carStack = [];
+var carId = 0;
+
 function createCar() {
     var car = document.createElement('div');
     car.className = 'car horizontal';
+    car.id = 'car_' + carId;
+    carStack.push(car);
+    ++carId;
     car.style.top = '480px';
     car.style.left = '0px';
     document.querySelector('.road').appendChild(car);
@@ -18,14 +24,49 @@ function createCar() {
 function createCarStraight() {
     var car = document.createElement('div');
     car.className = 'car horizontal';
+    car.id = 'car_' + carId;
+    carStack.push(car);
+    ++carId;
     car.style.top = '480px';
     car.style.left = '0px';
     document.querySelector('.road').appendChild(car);
 
+
+
+
+    /*
+        setInterval(function () {
+    
+            var currentColor = redLight.style.backgroundColor;
+            car.style.left = trafficLightDistance1 + 'px';
+    
+            if (document.getElementById('trafficLightSwitch').checked) {
+                if (redLight.style.backgroundColor === 'red') {
+                    // Красный свет: остановка перед стоп-линией
+                    car.style.left = stopLine + 'px';
+                } else if (yellowLight.style.backgroundColor === 'yellow') {
+                    // Желтый свет: замедление и остановка перед стоп-линией
+                    car.style.left = stopLine + 'px';
+                } else if (greenLight.style.backgroundColor === 'green') {
+                    // Зеленый свет: проезд перекрестка прямо
+                    car.className = 'car vertical';
+                    car.style.left = '750px';
+                }
+            } else {
+                // Перекресток нерегулируемый: проезд перекрестка прямо
+                car.className = 'car vertical';
+                car.style.left = '750px';
+            }
+        }, 1000);*/
+}
+
+
+setInterval(function () {
     var light = document.querySelectorAll('.trafficLight1 .light');
     var stopLine = 140; // Позиция стоп-линии
-    var trafficLightDistance1 = 50;
+    var trafficLightDistance1 = 100; //дистанция экстренного торможения (если желтый, то машина проезжает)
     var trafficLightDistance2 = 100;
+    var carDistance = 60;
 
     let redLight = null;
     let yellowLight = null;
@@ -40,30 +81,45 @@ function createCarStraight() {
         }
     }
 
-    setInterval(function () {
 
-        var currentColor = redLight.style.backgroundColor;
-        car.style.left = trafficLightDistance1 + 'px';
+    var array = carStack;
+    for (let i = 0; i < carStack.length; i++) {
+        let carInStack = carStack[i];
+        var carPos = Number(carInStack.style.left.substring(0, carInStack.style.left.length - 2));
 
         if (document.getElementById('trafficLightSwitch').checked) {
-            if (redLight.style.backgroundColor === 'red') {
-                // Красный свет: остановка перед стоп-линией
-                car.style.left = stopLine + 'px';
-            } else if (yellowLight.style.backgroundColor === 'yellow') {
-                // Желтый свет: замедление и остановка перед стоп-линией
-                car.style.left = stopLine + 'px';
-            } else if (greenLight.style.backgroundColor === 'green') {
-                // Зеленый свет: проезд перекрестка прямо
-                car.className = 'car vertical';
-                car.style.left = '750px';
+
+            if (carPos <= trafficLightDistance1) {
+                if (redLight.style.backgroundColor === 'red' || yellowLight.style.backgroundColor === 'yellow') {
+                    // Красный и Желтый свет: остановка перед стоп-линией
+                    carInStack.style.left = (stopLine - carDistance * (i + 1)) + 'px';
+                } else if (greenLight.style.backgroundColor === 'green') {
+                    // Зеленый свет: проезд перекрестка прямо
+                    carInStack.style.left = (carPos + 1) + 'px';
+                }
+            } else if (carPos > trafficLightDistance1 && carPos <= stopLine) {
+                if (redLight.style.backgroundColor === 'red' || yellowLight.style.backgroundColor === 'yellow') {
+                    // Красный свет: остановка перед стоп-линией
+                    carInStack.style.left = (stopLine - carDistance * (i + 1)) + 'px';
+                } else if (yellowLight.style.backgroundColor === 'yellow' || greenLight.style.backgroundColor === 'green') {
+                    // Желтый и Зеленый свет: проезд перекрестка прямо если дистанция экстренного торможения
+                    carInStack.style.left = (carPos + 1) + 'px';
+                }
+            } else {
+                //Машина проехала стоп-линию: проезд перекрестка прямо
+                carInStack.style.left = (carPos + 1) + 'px';
             }
         } else {
             // Перекресток нерегулируемый: проезд перекрестка прямо
-            car.className = 'car vertical';
-            car.style.left = '750px';
+            //carInStack.className = 'car vertical';
+            carInStack.style.left = (carPos + 1) + 'px';
         }
-    }, 1000);
-}
+
+    }
+
+
+}, 50);
+
 
 /**/
 // Define the traffic light modes
@@ -202,7 +258,7 @@ function blinkingLight(light, stokColor) {
     }, 500);
 }
 
-let timerMode =0;
+let timerMode = 0;
 let timerMain = 0;
 let timerRoadA = 20;
 let timerRoadB = 15;
@@ -235,39 +291,39 @@ setInterval(function () {
                     //swithing light to Mode 3: Blinking Green
                     intersectionMode = 3;
                     timerMode = timerBlinkingGreen;
-                    switchTrafficLights(3, timerMode*1000);
+                    switchTrafficLights(3, timerMode * 1000);
                     break;
                 case 3:
                     //swithing light to Mode 4: Yellow
                     intersectionMode = 4;
                     timerMode = timerYellow;
-                    switchTrafficLights(4, timerMode*1000);
+                    switchTrafficLights(4, timerMode * 1000);
                     break;
                 case 4:
                     //swithing light to Mode 5
                     intersectionMode = 5;
                     timerMode = timerRoadB
-                    timerMain = timerRoadB+timerBlinkingGreen;
-                    switchTrafficLights(5, timerMode*1000);
+                    timerMain = timerRoadB + timerBlinkingGreen;
+                    switchTrafficLights(5, timerMode * 1000);
                     break;
                 case 5:
                     //swithing light to Mode 6
                     intersectionMode = 6;
                     timerMode = timerBlinkingGreen;
-                    switchTrafficLights(6, timerMode*1000);
+                    switchTrafficLights(6, timerMode * 1000);
                     break;
                 case 6:
                     //swithing light to Mode 7
                     intersectionMode = 7;
                     timerMode = timerYellow;
-                    switchTrafficLights(7, timerMode*1000);
+                    switchTrafficLights(7, timerMode * 1000);
                     break;
                 case 7:
                     //swithing light to Mode 2
                     intersectionMode = 2;
-                    timerMode=timerRoadA;
-                    timerMain = timerRoadA+timerBlinkingGreen;
-                    switchTrafficLights(5, timerMode*1000);
+                    timerMode = timerRoadA;
+                    timerMain = timerRoadA + timerBlinkingGreen;
+                    switchTrafficLights(5, timerMode * 1000);
                     break;
 
             }
