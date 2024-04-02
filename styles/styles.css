@@ -1,0 +1,208 @@
+.road {
+    position: relative;
+    background-color: #333;
+    width: 800px;
+    height: 800px;
+    border: 5px solid black;
+    /* Белая граница вокруг дороги */
+}
+
+.crossroad {
+    position: absolute;
+    background-color: #666;
+    top: 200px;
+    left: 200px;
+    width: 400px;
+    height: 400px;
+
+}
+
+.laneA1 {
+    /*in*/
+    position: absolute;
+    background-color: #666;
+    top: 400px;
+    width: 195px;
+    height: 190px;
+    border-top: 5px dashed white;
+    /* Пунктирные линии между полосами */
+    border-right: 5px solid white;
+    border-bottom: 5px solid white;
+
+}
+
+.laneA1:nth-child(2) {
+    /*out*/
+    height: 195px;
+    width: 200px;
+    left: 600px;
+    border-top: none;
+    /* Убираем линию с правой стороны второй полосы */
+    border-right: none;
+    /* Убираем линию с правой стороны второй полосы */
+}
+
+.laneA2 {
+    /*in*/
+    position: absolute;
+    background-color: #666;
+    top: 200px;
+    left: 600px;
+    width: 195px;
+    height: 190px;
+    border-bottom: 5px dashed white;
+    /* Пунктирные линии между полосами */
+    border-left: 5px solid white;
+    border-top: 5px solid white;
+
+}
+
+.laneA2:nth-child(2) {
+    /*out*/
+    height: 195px;
+    width: 200px;
+    left: 0px;
+    border-bottom: none;
+    /* Убираем разделительную линию с правой стороны второй полосы */
+    border-left: none;
+    /* Убираем стоп-линию с правой стороны второй полосы */
+}
+
+.laneB1 {
+    /*in*/
+    position: absolute;
+    background-color: #666;
+    top: 0px;
+    left: 200px;
+    width: 190px;
+    height: 195px;
+    border-right: 5px dashed white;
+    /* Пунктирные линии между полосами */
+    border-bottom: 5px solid white;
+    border-left: 5px solid white;
+
+}
+
+.laneB1:nth-child(2) {
+    /*out*/
+    height: 200px;
+    width: 195px;
+    top: 600px;
+    border-right: none;
+    /* Убираем линию с правой стороны второй полосы */
+    border-bottom: none;
+    /* Убираем линию с правой стороны второй полосы */
+}
+
+.laneB2 {
+    /*in*/
+    position: absolute;
+    background-color: #666;
+    top: 600px;
+    left: 400px;
+    width: 190px;
+    height: 195px;
+    border-left: 5px dashed white;
+    /* Пунктирные линии между полосами */
+    border-top: 5px solid white;
+    border-right: 5px solid white;
+
+}
+
+.laneB2:nth-child(2) {
+    /*out*/
+    height: 200px;
+    width: 195px;
+    top: 0px;
+    border-left: none;
+    /* Убираем разделительную линию с правой стороны второй полосы */
+    border-top: none;
+    /* Убираем стоп-линию с правой стороны второй полосы */
+}
+
+.car {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #FF0000;
+    transition: all 2s linear;
+}
+
+.horizontal {
+    top: 480px;
+}
+
+.vertical {
+    left: 280px;
+    width: 50px;
+    height: 50px;
+}
+
+.trafficLight1 {
+    position: absolute;
+    top: 325px;
+    left: 200px;
+    width: 50px;
+    height: 160px;
+    border: 1px solid black;
+}
+
+.trafficLight2 {
+    position: absolute;
+    top: 200px;
+    left: 325px;
+    width: 160px;
+    height: 50px;
+    border: 1px solid black;
+}
+
+.trafficLight2 childElements {
+    display: inline-block;
+}
+
+.trafficLight3 {
+    position: absolute;
+    top: 325px;
+    left: 550px;
+    width: 50px;
+    height: 160px;
+    border: 1px solid black;
+}
+
+.trafficLight4 {
+    position: absolute;
+    top: 550px;
+    left: 325px;
+    width: 160px;
+    height: 50px;
+    border: 1px solid black;
+}
+
+.light {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+.red {
+    background-color: red;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.green {
+    background-color: green;
+}
+
+.blinker{
+    background: grey;
+}
+
+#YellowLight{
+    -webkit-transition: background 0.25s ease-in-out;
+    -ms-transition:     background 0.25s ease-in-out;
+    transition:         background 0.25s  ease-in-out;
+}
