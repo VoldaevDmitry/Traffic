@@ -28,7 +28,7 @@ function createCarStraight() {
     carStack.push(car);
     ++carId;
     car.style.top = '480px';
-    car.style.left = '0px';
+    car.style.left = '-100px';
     document.querySelector('.road').appendChild(car);
 
 
@@ -83,7 +83,8 @@ setInterval(function () {
 
 
     var array = carStack;
-    for (let i = 0; i < carStack.length; i++) {
+    var carQueue = carCount = carStack.length
+    for (let i = 0; i < carCount; i++) {
         let carInStack = carStack[i];
         var carPos = Number(carInStack.style.left.substring(0, carInStack.style.left.length - 2));
 
@@ -92,29 +93,33 @@ setInterval(function () {
             if (carPos <= trafficLightDistance1) {
                 if (redLight.style.backgroundColor === 'red' || yellowLight.style.backgroundColor === 'yellow') {
                     // Красный и Желтый свет: остановка перед стоп-линией
-                    carInStack.style.left = (stopLine - carDistance * (i + 1)) + 'px';
+                    carInStack.style.left = (stopLine - carDistance * i) + 'px';
                 } else if (greenLight.style.backgroundColor === 'green') {
                     // Зеленый свет: проезд перекрестка прямо
-                    carInStack.style.left = (carPos + 1) + 'px';
+                    carInStack.style.left = (carPos + 5) + 'px';
                 }
             } else if (carPos > trafficLightDistance1 && carPos <= stopLine) {
                 if (redLight.style.backgroundColor === 'red' || yellowLight.style.backgroundColor === 'yellow') {
                     // Красный свет: остановка перед стоп-линией
-                    carInStack.style.left = (stopLine - carDistance * (i + 1)) + 'px';
+                    carInStack.style.left = (stopLine - carDistance * i) + 'px';
                 } else if (yellowLight.style.backgroundColor === 'yellow' || greenLight.style.backgroundColor === 'green') {
                     // Желтый и Зеленый свет: проезд перекрестка прямо если дистанция экстренного торможения
-                    carInStack.style.left = (carPos + 1) + 'px';
+                    carInStack.style.left = (carPos + 5) + 'px';
                 }
-            } else {
+            } else if (carPos>stopLine && carPos < 750) {
                 //Машина проехала стоп-линию: проезд перекрестка прямо
-                carInStack.style.left = (carPos + 1) + 'px';
+                carInStack.style.left = (carPos + 5) + 'px';
+                --carQueue;
+            } else {
+                carStack.shift();                
+                carInStack.remove(); 
+                --carCount;
             }
         } else {
             // Перекресток нерегулируемый: проезд перекрестка прямо
             //carInStack.className = 'car vertical';
-            carInStack.style.left = (carPos + 1) + 'px';
+            carInStack.style.left = (carPos + 5) + 'px';
         }
-
     }
 
 
