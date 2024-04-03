@@ -30,34 +30,6 @@ function createCarStraight() {
     car.style.top = '480px';
     car.style.left = '-100px';
     document.querySelector('.road').appendChild(car);
-
-
-
-
-    /*
-        setInterval(function () {
-    
-            var currentColor = redLight.style.backgroundColor;
-            car.style.left = trafficLightDistance1 + 'px';
-    
-            if (document.getElementById('trafficLightSwitch').checked) {
-                if (redLight.style.backgroundColor === 'red') {
-                    // Красный свет: остановка перед стоп-линией
-                    car.style.left = stopLine + 'px';
-                } else if (yellowLight.style.backgroundColor === 'yellow') {
-                    // Желтый свет: замедление и остановка перед стоп-линией
-                    car.style.left = stopLine + 'px';
-                } else if (greenLight.style.backgroundColor === 'green') {
-                    // Зеленый свет: проезд перекрестка прямо
-                    car.className = 'car vertical';
-                    car.style.left = '750px';
-                }
-            } else {
-                // Перекресток нерегулируемый: проезд перекрестка прямо
-                car.className = 'car vertical';
-                car.style.left = '750px';
-            }
-        }, 1000);*/
 }
 
 
@@ -117,7 +89,6 @@ setInterval(function () {
             }
         } else {
             // Перекресток нерегулируемый: проезд перекрестка прямо
-            //carInStack.className = 'car vertical';
             carInStack.style.left = (carPos + 5) + 'px';
         }
     }
@@ -127,7 +98,7 @@ setInterval(function () {
 
 
 /**/
-// Define the traffic light modes
+// Описание режимов работы светофора
 const modes = [
     "Yellow Blinking",  // Mode 1
     "Red",              // Mode 2
@@ -137,13 +108,8 @@ const modes = [
     "Yellow"            // Mode 6
 ];
 
-// Initialize the intersection mode (1: unregulated, 2-6: regulated)
-let intersectionMode = 1;
 
-// Initialize the traffic light modes for all lights
-let trafficLightModes = [1, 1, 1, 1];
-
-// Define the switching order for each intersection mode
+// описание состояний светофоров для каждого режима работы перекрестка
 const switchingOrder = {
     1: [1, 1, 1, 1],  // Unregulated
     2: [4, 2, 4, 2],  // Road A allowed
@@ -154,15 +120,17 @@ const switchingOrder = {
     7: [3, 6, 3, 6]  // Road A stop, Road B warning
 };
 
+// Initialize the intersection mode (1: unregulated, 2-6: regulated)
+let intersectionMode = 1;
+
+// Initialize the traffic light modes for all lights
+let trafficLightModes = [1, 1, 1, 1];
+
 let order = switchingOrder[intersectionMode];
 
 // Function to switch traffic light modes
 function switchTrafficLights(newMode, newTimeOut) {
-    // Get the switching order for the current intersection mode
-    /*if (!document.getElementById('trafficLightSwitch').checked) {
-        intersectionMode = 1;
-    } else if (intersectionMode == 1) { intersectionMode = intersectionMode + 1; }
-*/
+  
     order = switchingOrder[intersectionMode];
 
     // Update the traffic light modes
@@ -179,12 +147,6 @@ function switchTrafficLights(newMode, newTimeOut) {
         switchLightsFor(varLightId, varMode, newTimeOut);
 
     }
-
-    // Update the intersection mode (cyclically)
-    //intersectionMode = (intersectionMode % 7) + 1;
-
-
-
 }
 
 function switchLightsFor(varTrafficLight, mode, timeOut) {
@@ -337,22 +299,3 @@ setInterval(function () {
         --timerMain;
     }
 }, 1000);
-
-
-
-
-/**/
-
-/*
- 
-var lights = document.querySelectorAll('.trafficLight1 .light');
-var colors = ['red', 'yellow', 'green'];
-var currentColor = 0;
- 
-setInterval(function() {
-  for (var i = 0; i < lights.length; i++) {
-    lights[i].style.backgroundColor = colors[currentColor];
-  }
-  currentColor = (currentColor + 1) % colors.length;
-}, 1000);
-*/
